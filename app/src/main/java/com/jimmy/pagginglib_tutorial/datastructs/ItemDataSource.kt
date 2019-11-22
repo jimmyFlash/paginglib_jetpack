@@ -47,19 +47,27 @@ class ItemDataSource : PageKeyedDataSource<Int, Item>() {
             .getAnswers(FIRST_PAGE, PAGE_SIZE, SITE_NAME)// query the answers endpoint
             .enqueue(object : Callback<StackApiResponse>{// asynchronous callback
                 override fun onFailure(call: Call<StackApiResponse>, t: Throwable) {
-                    //
+                     Log.e("${ItemDataSource::class.java.simpleName}  - loadInitial",
+                         "error ${t.localizedMessage} ")
                 }
 
                 override fun onResponse(call: Call<StackApiResponse>,
                                         response: Response<StackApiResponse> ) {
 
+                    if (response.code() == 200) {
+                        if (response.body() != null) {
 
+                            Log.e("${ItemDataSource::class.java.simpleName}  - loadInitial",
+                                " loaded data size: ${response.body()?.items?.size}, details:  ${response.body()?.items }")
 
-                    if (response.body() != null) {
+                            callback.onResult(
+                                response.body()?.items as MutableList<Item>,
+                                null, FIRST_PAGE + 1
+                            )
+                        }
+                    }else{
 
-                        Log.e(ItemDataSource::class.java.simpleName, "loadInitial - results" )
-                        callback.onResult(response.body()?.items as MutableList<Item>,
-                            null, FIRST_PAGE + 1)
+                        Log.e("${ItemDataSource::class.java.simpleName}  - loadInitial", "response code is ${response.code()}")
                     }
                 }
 
@@ -75,8 +83,9 @@ class ItemDataSource : PageKeyedDataSource<Int, Item>() {
             .getAnswers(params.key, PAGE_SIZE, SITE_NAME)
             .enqueue(object : Callback<StackApiResponse>{
                 override fun onFailure(call: Call<StackApiResponse>, t: Throwable) {
-                    //
+                    Log.e("${ItemDataSource::class.java.simpleName}  - loadBefore", "error ${t.localizedMessage} ")
                 }
+
 
                 override fun onResponse(call: Call<StackApiResponse>,
                                         response: Response<StackApiResponse> ) {
@@ -87,7 +96,7 @@ class ItemDataSource : PageKeyedDataSource<Int, Item>() {
                     val adjacentKey :Int? = if (params.key > 1) params.key - 1 else null
                     if (response.body() != null) {
 
-                        Log.e(ItemDataSource::class.java.simpleName, "loadBefore - results" )
+                        Log.e("${ItemDataSource::class.java.simpleName}  - loadBefore", "loadBefore - results" )
                         //passing the loaded data
                         //and the previous page key
                         callback.onResult(response.body()?.items as MutableList<Item>, adjacentKey)
@@ -104,21 +113,27 @@ class ItemDataSource : PageKeyedDataSource<Int, Item>() {
             .getAnswers(params.key, PAGE_SIZE, SITE_NAME)
             .enqueue(object : Callback<StackApiResponse>{
                 override fun onFailure(call: Call<StackApiResponse>, t: Throwable) {
-                    //
+                    Log.e("${ItemDataSource::class.java.simpleName}  - loadAfter", "error ${t.localizedMessage} ")
                 }
 
                 override fun onResponse(call: Call<StackApiResponse>,
                                         response: Response<StackApiResponse> ) {
 
-                    if (response.body() != null) {
+                    if (response.code() == 200) {
+                        if (response.body() != null) {
 
-                        Log.e(ItemDataSource::class.java.simpleName, "loadAfter - results" )
-                        //if the response has next page
-                        //incrementing the next page number
-                        val key: Int? = if (response.body()!!.has_more) params.key + 1 else null
-                        //passing the loaded data
-                        //and the previous page key
-                        callback.onResult(response.body()?.items as MutableList<Item>, key)
+                            Log.e("${ItemDataSource::class.java.simpleName}  - loadAfter", "loadAfter - results")
+                            //if the response has next page
+                            //incrementing the next page number
+                            val key: Int? = if (response.body()!!.has_more) params.key + 1 else null
+                            //passing the loaded data
+                            //and the previous page key
+                            callback.onResult(response.body()?.items as MutableList<Item>, key)
+                        }
+                    }else{
+
+
+                        Log.e("${ItemDataSource::class.java.simpleName}  - loadAfter", "response code is ${response.code()}")
                     }
                 }
 

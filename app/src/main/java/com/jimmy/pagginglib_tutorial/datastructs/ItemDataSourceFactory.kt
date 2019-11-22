@@ -21,13 +21,13 @@ class ItemDataSourceFactory : DataSource.Factory<Int, Item>() {
      */
 
     //creating the mutable live data
-    val itemLiveDataSource = MutableLiveData<PageKeyedDataSource<Int, Item>>()
+    var itemLiveDataSource = MutableLiveData<PageKeyedDataSource<Int, Item>>()
 
     override fun create(): DataSource<Int, Item> {
         //getting our data source object
         val itemDataSource = ItemDataSource()
 
-        //posting the datasource to get the values
+        //posting the datasource to get the values in the background
         itemLiveDataSource.postValue(itemDataSource)
 
         //returning the datasource

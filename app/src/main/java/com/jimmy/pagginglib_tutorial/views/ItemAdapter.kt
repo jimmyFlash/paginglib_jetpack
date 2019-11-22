@@ -1,5 +1,7 @@
 package com.jimmy.pagginglib_tutorial.views
 
+import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.ImageView
@@ -11,10 +13,11 @@ import com.jimmy.pagginglib_tutorial.R
 import com.jimmy.pagginglib_tutorial.databinding.RecyclerviewUsersBinding
 import com.jimmy.pagginglib_tutorial.datastructs.Item
 import android.widget.TextView
+import com.bumptech.glide.Glide
 
 
-
-class ItemAdapter : PagedListAdapter<Item, ItemAdapter.ItemViewHolder>(REPO_COMPARATOR) {
+class ItemAdapter(val cntxt : Context) :
+    PagedListAdapter<Item, ItemAdapter.ItemViewHolder>(REPO_COMPARATOR) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
@@ -30,20 +33,22 @@ class ItemAdapter : PagedListAdapter<Item, ItemAdapter.ItemViewHolder>(REPO_COMP
 
     override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
         val item = getItem(position)
-        holder.bind(item)
+        holder.bind(item, cntxt)
     }
 
 
     class ItemViewHolder(var binding: RecyclerviewUsersBinding)
         :RecyclerView.ViewHolder(binding.root){
 
-        lateinit var textView: TextView
-        lateinit var  imageView: ImageView
+        fun bind(item: Item?, cntxt: Context){
 
-        fun bind(item : Item?){
-
-            //todo nullability check in the layout file
-            binding.item = item
+            Log.e(ItemAdapter::class.java.simpleName, "$item" )
+            if(item != null) {
+                binding.item = item
+                Glide.with(cntxt)
+                    .load(item.owner?.profile_image)
+                    .into(binding.imageView)
+            }
         }
 
     }
