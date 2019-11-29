@@ -29,6 +29,17 @@ task clean(type: Delete) {
     delete rootProject.buildDir
 }
 
+
+/*
+
+
+tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).all {
+    kotlinOptions {
+        freeCompilerArgs += "-XXLanguage:+NewInference"
+    }
+}
+*/
+
 ext {
     paging_version = "2.1.0"
     view_model_version = "2.0.0"
