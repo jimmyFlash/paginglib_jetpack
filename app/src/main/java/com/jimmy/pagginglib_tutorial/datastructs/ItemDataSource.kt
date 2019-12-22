@@ -57,9 +57,9 @@ class ItemDataSource : PageKeyedDataSource<Int, Item>() {
                     if (response.code() == 200) {
                         if (response.body() != null) {
 
-                            Log.e("${ItemDataSource::class.java.simpleName}  - loadInitial",
+                          /*  Log.e("${ItemDataSource::class.java.simpleName}  - loadInitial",
                                 " loaded data size: ${response.body()?.items?.size}, details:  ${response.body()?.items }")
-
+*/
                             callback.onResult(
                                 response.body()?.items as MutableList<Item>,
                                 null, FIRST_PAGE + 1
@@ -96,7 +96,7 @@ class ItemDataSource : PageKeyedDataSource<Int, Item>() {
                     val adjacentKey :Int? = if (params.key > 1) params.key - 1 else null
                     if (response.body() != null) {
 
-                        Log.e("${ItemDataSource::class.java.simpleName}  - loadBefore", "loadBefore - results" )
+                      //  Log.e("${ItemDataSource::class.java.simpleName}  - loadBefore", "loadBefore - results" )
                         //passing the loaded data
                         //and the previous page key
                         callback.onResult(response.body()?.items as MutableList<Item>, adjacentKey)
@@ -122,7 +122,7 @@ class ItemDataSource : PageKeyedDataSource<Int, Item>() {
                     if (response.code() == 200) {
                         if (response.body() != null) {
 
-                            Log.e("${ItemDataSource::class.java.simpleName}  - loadAfter", "loadAfter - results")
+                          //  Log.e("${ItemDataSource::class.java.simpleName}  - loadAfter", "loadAfter - results")
                             //if the response has next page
                             //incrementing the next page number
                             val key: Int? = if (response.body()!!.has_more) params.key + 1 else null

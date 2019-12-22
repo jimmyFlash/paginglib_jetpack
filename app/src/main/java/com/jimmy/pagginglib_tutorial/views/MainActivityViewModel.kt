@@ -21,7 +21,7 @@ class MainActivityViewModel : ViewModel() {
     var executor: ExecutorService = Executors.newFixedThreadPool(5)
 
     init {
-        Log.e(MainActivityViewModel::class.java.simpleName, "Viewmodel initialized" )
+      //  Log.e(MainActivityViewModel::class.java.simpleName, "Viewmodel initialized" )
         //getting our data source factory
         val itemDataSourceFactory = ItemDataSourceFactory()
 

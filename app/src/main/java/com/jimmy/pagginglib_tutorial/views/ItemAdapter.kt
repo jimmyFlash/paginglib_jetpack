@@ -42,7 +42,11 @@ class ItemAdapter(val cntxt : Context) :
 
         fun bind(item: Item?, cntxt: Context){
 
-            Log.e(ItemAdapter::class.java.simpleName, "$item" )
+            binding.infoCard.icon = cntxt.getDrawable(R.drawable.ic_launcher_background)
+            binding.infoCard.title = "Sample title"
+            binding.infoCard.content = "Sample text description"
+
+           // Log.e(ItemAdapter::class.java.simpleName, "$item" )
             if(item != null) {
                 binding.item = item
                 Glide.with(cntxt)

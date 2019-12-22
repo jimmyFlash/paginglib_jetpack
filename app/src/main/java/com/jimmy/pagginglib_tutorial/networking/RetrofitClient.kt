@@ -9,7 +9,7 @@ import java.security.cert.X509Certificate
 import java.util.concurrent.TimeUnit
 import javax.net.ssl.*
 
-
+//todo create ui handleing for any errors that prevent list of data from being returned
 object RetrofitClient {
     private var mInstance: Api? = null
     private const val BASE_URL = "https://api.stackexchange.com/2.2/"
@@ -23,7 +23,7 @@ object RetrofitClient {
     }
 
     private fun create (): Api {
-        Log.e(RetrofitClient::class.java.simpleName, "RetrofitClient created" )
+       // Log.e(RetrofitClient::class.java.simpleName, "RetrofitClient created" )
 
         val logger = HttpLoggingInterceptor()
         logger.level = HttpLoggingInterceptor.Level.HEADERS
@@ -82,7 +82,7 @@ object RetrofitClient {
             return builder
         } catch ( e : Exception) {
 //                throw  RuntimeException(e)
-            Log.e("OKHTTP error >>>>>>>>" ," ${e.message}")
+            //Log.e("OKHTTP error >>>>>>>>" ," ${e.message}")
             return OkHttpClient.Builder()
         }
 
