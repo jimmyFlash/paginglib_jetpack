@@ -13,9 +13,16 @@ import java.util.*
 
 // todo handle failed request
 // todo check connection to internet
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity() , ItemAdapter.CallBacks{
 
-    override fun onCreate(savedInstanceState: Bundle?) {
+    override fun itemCountUpdated(count: Int) {
+       if(count > 0 &&  progressCircular.visibility == View.VISIBLE){
+           progressCircular.visibility = View.GONE
+
+       }
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?)  {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
@@ -24,7 +31,7 @@ class MainActivity : AppCompatActivity() {
         recyclerview.hasFixedSize()
 
         val viewmodel = ViewModelProviders.of(this).get(MainActivityViewModel::class.java)
-        val itemAdapter = ItemAdapter(this)
+        val itemAdapter = ItemAdapter(this, this)
 
         progressCircular.visibility = View.VISIBLE
 

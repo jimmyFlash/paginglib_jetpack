@@ -16,8 +16,13 @@ import android.widget.TextView
 import com.bumptech.glide.Glide
 
 
-class ItemAdapter(val cntxt : Context) :
+class ItemAdapter(val cntxt : Context, var implemeting : CallBacks? = null) :
     PagedListAdapter<Item, ItemAdapter.ItemViewHolder>(REPO_COMPARATOR) {
+
+
+    interface CallBacks {
+        fun  itemCountUpdated(count : Int)
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
@@ -29,6 +34,17 @@ class ItemAdapter(val cntxt : Context) :
 
         return ItemViewHolder(binding)
 
+    }
+
+    override fun getItemCount(): Int {
+
+        val count = super.getItemCount()
+        Log.e(Item::class.java.simpleName, "The count of items is about $count")
+
+        if(count > 0){
+            implemeting?.itemCountUpdated(count)
+        }
+        return count
     }
 
     override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
