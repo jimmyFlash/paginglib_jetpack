@@ -1,7 +1,6 @@
 # Paging library
 
-    Application demonstrates the use of paging library in android with infinite scrolling,
-   using network requests to the GitHub api as single source of truth.
+    Application demonstrates the use of paging library in android with infinite scrolling, using network requests to the GitHub api as single source of truth.
 
 
 ## Components
